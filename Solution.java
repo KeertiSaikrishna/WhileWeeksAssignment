@@ -1,112 +1,72 @@
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import javax.sound.midi.Soundbank;
 
 public class Solution {
-    public int solution(int Y, String A, String B, String W) {
-        final short vacationStartMonth = findMonth(A);
-        final short vacationEndMonth = findMonth(B);
-        final short vacationLastDayDate = findLastDay(B, Y);
-
-        if (vacationStartMonth == -1 || vacationEndMonth == -1 || vacationLastDayDate == -1) {
-            System.out.println("invalid input");
-            return -1;
+    public void solution(int[] arr, int k) {
+        int maxNumber = 0;
+        for (int i : arr) {
+            if (i > maxNumber)
+                maxNumber = i;
         }
-
-        LocalDate startDate = LocalDate.of(Y, vacationStartMonth, 1);
-        LocalDate endDate = LocalDate.of(Y, vacationEndMonth, vacationLastDayDate);
-        LocalDate startingMondayDate;
-
-        if (startDate.getDayOfWeek().toString() != "MONDAY") {
-            int daysTillMonday = findDaystoMonday(startDate.getDayOfWeek().toString());
-            startingMondayDate = startDate.plusDays(daysTillMonday);
-        } else {
-            startingMondayDate = startDate;
+        String biggest_element = Integer.toString(maxNumber);
+        int maxLengthOfNumber = biggest_element.length();
+        int noOfRows = arr.length / k == 0 ? (arr.length / k) : ((arr.length / k) + 1);
+        if (noOfRows == 0) {
+            noOfRows = 1;
         }
-
-        long noOfWeeks = ChronoUnit.WEEKS.between(startingMondayDate, endDate);
-
-        return ((int) noOfWeeks);
-    }
-
-    static short findMonth(String Month) {
-        switch (Month) {
-            case "January":
-                return 1;
-            case "February":
-                return 2;
-            case "March":
-                return 3;
-            case "April":
-                return 4;
-            case "May":
-                return 5;
-            case "June":
-                return 6;
-            case "July":
-                return 7;
-            case "August":
-                return 8;
-            case "September":
-                return 9;
-            case "October":
-                return 10;
-            case "November":
-                return 11;
-            case "December":
-                return 12;
-        }
-        return -1;
-    }
-
-    static short findLastDay(String Month, int Year) {
-        switch (Month) {
-            case "January":
-                return 31;
-            case "February":
-                if (Year % 4 == 0) {
-                    return 29;
-                } else {
-                    return 28;
+        int noOfLines;
+        if (arr.length <= k) {
+            noOfLines = 3;
+            k = arr.length;
+        } else
+            noOfLines = (noOfRows * 2) + 1;
+        int currentIndex = 0;
+        for (int l = 1; l <= (noOfLines); l++) {
+            if ((l % 2) == 1) {
+                for (int i = 0; i < k; i++) {
+                    System.out.print("+");
+                    for (int j = 0; j < maxLengthOfNumber; j++) {
+                        System.out.print("-");
+                    }
                 }
-            case "March":
-                return 31;
-            case "April":
-                return 30;
-            case "May":
-                return 31;
-            case "June":
-                return 30;
-            case "July":
-                return 31;
-            case "August":
-                return 31;
-            case "September":
-                return 30;
-            case "October":
-                return 31;
-            case "November":
-                return 30;
-            case "December":
-                return 31;
+                System.out.print("+\n");
+            } else {
+                for (int i = 0; i < k; i++) {
+                    System.out.print("|");
+                    String exp = Integer.toString(arr[currentIndex]);
+                    int length = exp.length();
+                    int gap = maxLengthOfNumber - length;
+                    for (int j = 0; j < gap; j++) {
+                        System.out.print(" ");
+                    }
+                    System.out.print(arr[currentIndex++]);
+                    if (currentIndex == arr.length) {
+                        break;
+                    }
+                }
+                System.out.print("|\n");
+                if (currentIndex == arr.length) {
+                    if (arr.length % k != 0) {
+                        int noEle_lastRow = arr.length % k;
+                        for (int i = 0; i < noEle_lastRow; i++) {
+                            System.out.print("+");
+                            for (int j = 0; j < maxLengthOfNumber; j++) {
+                                System.out.print("-");
+                            }
+                        }
+                        System.out.print("+");
+                        break;
+                    } else {
+                        for (int i = 0; i < k; i++) {
+                            System.out.print("+");
+                            for (int j = 0; j < maxLengthOfNumber; j++) {
+                                System.out.print("-");
+                            }
+                        }
+                        System.out.print("+\n");
+                        break;
+                    }
+                }
+            }
         }
-        return -1;
-    }
-
-    static int findDaystoMonday(String day) {
-        switch (day) {
-            case "TUESDAY":
-                return 6;
-            case "WEDNESDAY":
-                return 5;
-            case "THURSDAY":
-                return 4;
-            case "FRIDAY":
-                return 3;
-            case "SATURDAY":
-                return 2;
-            case "SUNDAY":
-                return 1;
-        }
-        return -1;
     }
 }
