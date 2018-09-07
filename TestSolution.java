@@ -1,8 +1,9 @@
 public class TestSolution {
     public static void main(String[] args) {
-        Solution demo = new Solution();
-        int[] arr = new int[]{4, 35, 80, 123, 123456, 44, 8, 5, 23, 43, 12, 9};
-
-        demo.solution(arr, 5);
+        Solution test = new Solution();
+        int noOfWeeks = test.solution(2014, "April", "May", "wednesday");
+        if (noOfWeeks != -1) {
+            System.out.println(noOfWeeks);
+        }
     }
 }
