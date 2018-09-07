@@ -24,7 +24,7 @@ public class Solution {
 
         if (startDate.getDayOfWeek().toString() != "MONDAY") {
             int daysTillMonday = (7 - (startDate.getDayOfWeek().ordinal()));
-                                                //finding number of days to next sunday
+                                                //finding number of days to next monday
             startingMondayDate = startDate.plusDays(daysTillMonday);
         } else {
             startingMondayDate = startDate;
